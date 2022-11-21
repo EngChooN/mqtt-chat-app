@@ -1,5 +1,5 @@
 import Router from "next/router";
-import { useState } from "react";
+import React, { useState } from "react";
 import { LoginBox, LoginInput, LoginButton } from "./Login.styles";
 
 export default function Login() {
@@ -9,14 +9,14 @@ export default function Login() {
 
   const login = () => {
     localStorage.setItem("username", userName);
-    Router.push("/chat");
+    Router.push("/chat/" + userName);
   };
 
   return (
     <LoginBox>
       Login
       <LoginInput
-        onChange={(e) => {
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           setUserName(e.target.value);
         }}
       />
