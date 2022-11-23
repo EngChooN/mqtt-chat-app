@@ -12,12 +12,32 @@ export const LoginBox = styled.div`
 `;
 
 export const LoginInput = styled.input`
-  margin-top: 15px;
   width: 300px;
-  height: 50px;
+  height: 45px;
   background-color: white;
   color: black;
-  font-size: 22px;
+  font-size: 20px;
+  font-weight: 400;
+  margin-top: 30px;
+`;
+
+export const UrlInput = styled.input`
+  margin-top: 15px;
+  width: 300px;
+  height: 45px;
+  background-color: white;
+  color: black;
+  font-size: 20px;
+  font-weight: 400;
+`;
+
+export const PortInput = styled.input`
+  margin-top: 15px;
+  width: 300px;
+  height: 45px;
+  background-color: white;
+  color: black;
+  font-size: 20px;
   font-weight: 400;
 `;
 
