@@ -14,6 +14,18 @@ export default function Chat() {
     setUserPort(localStorage.getItem("userport"));
   });
 
+  const options = {
+    host: userUrl,
+    port: Number(userPort),
+    username: userName,
+  };
+
+  const client = mqtt.connect("mqtt://192.168.0.22");
+
+  client.on("connect", function () {
+    console.log();
+  });
+
   return (
     <ChatWrapper>
       <div

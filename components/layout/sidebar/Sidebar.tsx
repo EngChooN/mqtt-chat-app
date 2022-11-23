@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Wrapper, UserInfoBox, ChannelsBox } from "./Sidebar.styles";
@@ -69,9 +70,13 @@ export default function Sidebar() {
           />
         ) : null}
         <ul>
-          <li>every</li>
+          <li>
+            <Link href={"/chat/every"}>every</Link>
+          </li>
           {channels.map((el, idx) => (
-            <li>{el}</li>
+            <li>
+              <Link href={"/chat/" + el.replace(/ /g, "")}>{el}</Link>
+            </li>
           ))}
         </ul>
       </ChannelsBox>
