@@ -35,7 +35,7 @@ export default function Login() {
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           setUserUrl(e.target.value);
         }}
-        placeholder="url"
+        placeholder="url / host"
       />
       <PortInput
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
