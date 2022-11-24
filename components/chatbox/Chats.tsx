@@ -14,13 +14,14 @@ export default function Chat() {
     setUserPort(localStorage.getItem("userport"));
   });
 
+  // mqtt connect
   const options = {
-    host: userUrl,
     port: Number(userPort),
     username: userName,
+    clientId: userName,
   };
 
-  const client = mqtt.connect("mqtt://192.168.0.22");
+  const client = mqtt.connect(userUrl, options);
 
   client.on("connect", function () {
     console.log();

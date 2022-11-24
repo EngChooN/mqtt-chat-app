@@ -74,7 +74,7 @@ export default function Sidebar() {
             <Link href={"/chat/every"}>every</Link>
           </li>
           {channels.map((el, idx) => (
-            <li>
+            <li key={idx}>
               <Link href={"/chat/" + el.replace(/ /g, "")}>{el}</Link>
             </li>
           ))}

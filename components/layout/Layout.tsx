@@ -1,3 +1,5 @@
+import Router from "next/router";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "./header/Header";
 import Sidebar from "./sidebar/Sidebar";
@@ -15,11 +17,15 @@ const Body = styled.div`
 `;
 
 export default function Layout(props) {
+  const [currentUrl, setCurrentUrl] = useState("");
+  useEffect(() => {
+    setCurrentUrl(Router.pathname);
+  });
   return (
     <Wrapper>
       <Header />
       <div style={{ display: "flex", height: "100%", width: "100%" }}>
-        <Sidebar />
+        {currentUrl == "/" ? null : <Sidebar />}
         <Body>{props.children}</Body>
       </div>
     </Wrapper>

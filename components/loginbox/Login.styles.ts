@@ -19,6 +19,7 @@ export const LoginInput = styled.input`
   font-size: 20px;
   font-weight: 400;
   margin-top: 30px;
+  padding-left: 10px;
 `;
 
 export const UrlInput = styled.input`
@@ -29,6 +30,7 @@ export const UrlInput = styled.input`
   color: black;
   font-size: 20px;
   font-weight: 400;
+  padding-left: 10px;
 `;
 
 export const PortInput = styled.input`
@@ -39,6 +41,7 @@ export const PortInput = styled.input`
   color: black;
   font-size: 20px;
   font-weight: 400;
+  padding-left: 10px;
 `;
 
 export const LoginButton = styled.button`
