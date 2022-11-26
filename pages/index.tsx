@@ -9,6 +9,8 @@ const Wrapper = styled.section`
   background-color: #121222;
 `;
 
+// test commit
+
 export default function Home() {
   return (
     <Wrapper>
