@@ -10,5 +10,5 @@ export default function Header() {
     setChannelName(Router.query.channels);
   });
 
-  return <Wrapper>Channel - {channelName}</Wrapper>;
+  return <Wrapper>📍 Channel - {channelName}</Wrapper>;
 }
