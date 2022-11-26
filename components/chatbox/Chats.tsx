@@ -21,11 +21,11 @@ export default function Chat() {
     clientId: userName,
   };
 
-  const client = mqtt.connect(userUrl, options);
+  // const client = mqtt.connect(userUrl, options);
 
-  client.on("connect", function () {
-    console.log();
-  });
+  // client.on("connect", function () {
+  //   console.log();
+  // });
 
   return (
     <ChatWrapper>

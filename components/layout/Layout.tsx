@@ -25,7 +25,11 @@ export default function Layout(props) {
     <Wrapper>
       <Header />
       <div style={{ display: "flex", height: "100%", width: "100%" }}>
-        {currentUrl == "/" ? null : <Sidebar />}
+        {currentUrl == "/" ? null : (
+          <>
+            <Sidebar />
+          </>
+        )}
         <Body>{props.children}</Body>
       </div>
     </Wrapper>
