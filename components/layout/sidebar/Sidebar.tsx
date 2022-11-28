@@ -26,11 +26,18 @@ export default function Sidebar() {
 
   const addedChannel = (e) => {
     if (e.keyCode == 13) {
-      let getArr = JSON.parse(localStorage.getItem("channels"));
-      let setArr = JSON.stringify([...getArr, channelName]);
-      localStorage.setItem("channels", setArr);
-      setChannels(JSON.parse(setArr));
-      setAddChannel(false);
+      // 스페이스바를 누르고 추가했을 시, 예외처리 해야함!! (아직 안함)
+      if (channelName == "") {
+        // 채널명을 아무것도 입력하고 추가헀을 시, 채널 추가를 막음
+        setChannelName("");
+        setAddChannel(false);
+      } else {
+        let getArr = JSON.parse(localStorage.getItem("channels"));
+        let setArr = JSON.stringify([...getArr, channelName]);
+        localStorage.setItem("channels", setArr);
+        setChannels(JSON.parse(setArr));
+        setAddChannel(false);
+      }
     }
   };
 
@@ -38,10 +45,6 @@ export default function Sidebar() {
     let getArr = JSON.parse(localStorage.getItem("channels"));
     setChannels(getArr);
   }, []);
-
-  const moveToChannel = (el) => {
-    router.push("/chat/" + el);
-  };
 
   return (
     <Wrapper>
@@ -63,10 +66,12 @@ export default function Sidebar() {
         </div>
         {addChannelFlag ? (
           <input
+            style={{ marginTop: "20px", width: "100%", color: "white" }}
             onChange={(e) => {
               setChannelName(e.target.value);
             }}
             onKeyDown={addedChannel}
+            placeholder="엔터를 누르면 추가됩니다."
           />
         ) : null}
         <ul>
