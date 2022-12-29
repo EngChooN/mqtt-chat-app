@@ -3,55 +3,30 @@ import { ChatWrapper, ChatBox } from "./Chats.styles";
 import mqtt from "mqtt";
 
 export default function Chat() {
-  const [userName, setUserName] = useState("");
-  const [userUrl, setUserUrl] = useState("");
-  const [userPort, setUserPort] = useState("");
-
-  // 로컬스토리지에서 데이터를 가져옴
-  useEffect(() => {
-    setUserName(localStorage.getItem("username"));
-    setUserUrl(localStorage.getItem("userurl"));
-    setUserPort(localStorage.getItem("userport"));
-  });
-
-  // mqtt connect
-  const mqttOption = {
-    port: Number(userPort),
-    username: userName,
-    clientId: userName,
-  };
-
-  const [client, setClient] = useState(null);
-  const [connectStatus, setConnectStatus] = useState("");
-  const [payload, setPayload] = useState({});
+  const client = mqtt.connect("mqtt://localhost:1883");
 
   useEffect(() => {
-    const mqttConnect = (userUrl, mqttOption) => {
-      setConnectStatus("Connecting");
-      setClient(mqtt.connect(userUrl, mqttOption));
-    };
-    mqttConnect(userUrl, mqttOption);
+    console.log("클라이언트 접속 중..");
+
+    // 클라이언트 연결
+    client.on("connect", () => {
+      console.log("클라이언트 접속 완료!");
+      // 해당 토픽 구독
+      client.subscribe("every", (err) => {
+        if (!err) {
+          console.log("every 토픽 구독 성공!");
+        } else {
+          console.log("구독실패");
+        }
+      });
+    });
+
+    // 해당 토픽의 메세지 로그 콜백
+    client.on("message", function (topic, message) {
+      // message is Buffer
+      console.log(message.toString());
+    });
   }, []);
-
-  useEffect(() => {
-    if (client) {
-      console.log(client);
-      client.on("connect", () => {
-        setConnectStatus("Connected");
-      });
-      client.on("error", (err) => {
-        console.error("Connection error: ", err);
-        client.end();
-      });
-      client.on("reconnect", () => {
-        setConnectStatus("Reconnecting");
-      });
-      client.on("message", (topic, message) => {
-        const payload = { topic, message: message.toString() };
-        setPayload(payload);
-      });
-    }
-  }, [client]);
 
   return (
     <ChatWrapper>
