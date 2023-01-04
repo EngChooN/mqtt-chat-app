@@ -3,30 +3,42 @@ import { ChatWrapper, ChatBox } from "./Chats.styles";
 import mqtt from "mqtt";
 
 export default function Chat() {
-  const client = mqtt.connect("mqtt://localhost:1883");
+  const [personMessage, setPersonMessage] = useState([]);
+
+  const client = mqtt.connect("mqtt://192.168.100.74:9001");
 
   useEffect(() => {
     console.log("클라이언트 접속 중..");
-
-    // 클라이언트 연결
-    client.on("connect", () => {
-      console.log("클라이언트 접속 완료!");
-      // 해당 토픽 구독
-      client.subscribe("every", (err) => {
-        if (!err) {
-          console.log("every 토픽 구독 성공!");
-        } else {
-          console.log("구독실패");
-        }
+    // 최초 렌더링 시, 클라이언트 연결
+    const connectMqtt = () => {
+      client.on("connect", () => {
+        console.log("클라이언트 접속 완료!");
+        // 해당 토픽 구독
+        client.subscribe("every", (err) => {
+          if (!err) {
+            console.log("every 토픽 구독 성공!");
+          } else {
+            console.log("구독실패");
+          }
+        });
       });
-    });
-
-    // 해당 토픽의 메세지 로그 콜백
-    client.on("message", function (topic, message) {
-      // message is Buffer
-      console.log(message.toString());
-    });
+    };
+    connectMqtt();
   }, []);
+
+  // 구독한 토픽에서 메세지 수신
+  client.on("message", function (topic, message) {
+    // message is Buffer
+    console.log(message);
+    // 버퍼 => 문자열
+    const callMessage = message.toString("utf-8");
+    console.log(message.toString("utf-8"));
+    // 데이터에 담기
+    setPersonMessage((prev) => [...prev, callMessage]);
+  });
+
+  const date = new Date();
+  console.log(date);
 
   return (
     <ChatWrapper>
@@ -37,11 +49,11 @@ export default function Chat() {
           marginBottom: "20px",
         }}
       >
-        환영합니다!!{" "}
+        환영합니다!!
       </div>
-      <ChatBox>
-        ddasdjsaijdiasjdisajdksajdsalkjdsakjdskajdkasjfhfuwhfgusadhgsasopdksadksapodksapokdsapodksapodkspoakdospakdsoapkpdjkfblkdjshfdlksajf
-      </ChatBox>
+      {personMessage.map((messages, idx) => (
+        <ChatBox key={idx}>{messages}</ChatBox>
+      ))}
     </ChatWrapper>
   );
 }

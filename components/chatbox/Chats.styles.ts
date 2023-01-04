@@ -6,7 +6,7 @@ export const ChatWrapper = styled.section`
 `;
 
 export const ChatBox = styled.div`
-  max-width: 300px;
+  max-width: 200px;
   width: 100%;
   background-color: white;
   word-break: break-all;
@@ -17,4 +17,5 @@ export const ChatBox = styled.div`
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
+  margin-bottom: 15px;
 `;

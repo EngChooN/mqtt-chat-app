@@ -9,7 +9,7 @@ export default function Sidebar() {
   const [userName, setUserName] = useState("");
   const [userUrl, setUserUrl] = useState("");
   const [userPort, setUserPort] = useState("");
-  const [addChannelFlag, setAddChannel] = useState(false);
+  const [addChannelFlag, setAddChannelFlag] = useState(false);
   const [channelName, setChannelName] = useState("");
   const [channels, setChannels] = useState([]);
 
@@ -30,13 +30,13 @@ export default function Sidebar() {
       if (channelName == "") {
         // 채널명을 아무것도 입력하고 추가헀을 시, 채널 추가를 막음
         setChannelName("");
-        setAddChannel(false);
+        setAddChannelFlag(false);
       } else {
         let getArr = JSON.parse(localStorage.getItem("channels"));
         let setArr = JSON.stringify([...getArr, channelName]);
         localStorage.setItem("channels", setArr);
         setChannels(JSON.parse(setArr));
-        setAddChannel(false);
+        setAddChannelFlag(false);
       }
     }
   };
@@ -58,7 +58,7 @@ export default function Sidebar() {
           <div>#채널</div>
           <button
             onClick={() => {
-              setAddChannel(true);
+              setAddChannelFlag(!addChannelFlag);
             }}
           >
             +
