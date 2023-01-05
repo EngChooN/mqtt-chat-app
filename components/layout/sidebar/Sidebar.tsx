@@ -1,24 +1,18 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import useLocalData from "../../../src/hooks/useLocalData";
 import { Wrapper, UserInfoBox, ChannelsBox } from "./Sidebar.styles";
 
 export default function Sidebar() {
   const router = useRouter();
   // 로컬스토리지의 이름 값을 담아야함 (next.js의 SSR때문에..)
-  const [userName, setUserName] = useState("");
-  const [userUrl, setUserUrl] = useState("");
-  const [userPort, setUserPort] = useState("");
+  const { userName } = useLocalData();
+  const { userUrl } = useLocalData();
+  const { userPort } = useLocalData();
   const [addChannelFlag, setAddChannelFlag] = useState(false);
   const [channelName, setChannelName] = useState("");
   const [channels, setChannels] = useState([]);
-
-  // 로컬스토리지에서 데이터를 가져옴
-  useEffect(() => {
-    setUserName(localStorage.getItem("username"));
-    setUserUrl(localStorage.getItem("userurl"));
-    setUserPort(localStorage.getItem("userport"));
-  });
 
   useEffect(() => {
     console.log(addChannelFlag);
@@ -75,11 +69,11 @@ export default function Sidebar() {
           />
         ) : null}
         <ul>
-          <li>
+          <li style={{ marginBottom: "5px" }}>
             <Link href={"/chat/every"}>every</Link>
           </li>
           {channels.map((el, idx) => (
-            <li key={idx}>
+            <li style={{ marginBottom: "5px" }} key={idx}>
               <Link href={"/chat/" + el.replace(/ /g, "")}>{el}</Link>
             </li>
           ))}

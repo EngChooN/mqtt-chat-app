@@ -11,7 +11,7 @@ export const LoginBox = styled.div`
   font-size: 25px;
 `;
 
-export const LoginInput = styled.input`
+export const NameInput = styled.input`
   width: 300px;
   height: 45px;
   background-color: white;

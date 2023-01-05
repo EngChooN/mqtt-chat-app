@@ -2,7 +2,7 @@ import Router from "next/router";
 import React, { useState } from "react";
 import {
   LoginBox,
-  LoginInput,
+  NameInput,
   LoginButton,
   UrlInput,
   PortInput,
@@ -10,8 +10,8 @@ import {
 
 export default function Login() {
   const [userName, setUserName] = useState("");
-  const [userUrl, setUserUrl] = useState("");
-  const [userPort, setUserPort] = useState("");
+  const [userUrl, setUserUrl] = useState("192.168.100.74");
+  const [userPort, setUserPort] = useState("9001");
 
   const login = () => {
     localStorage.setItem("username", userName);
@@ -25,23 +25,25 @@ export default function Login() {
   return (
     <LoginBox>
       Login your MQTT server!
-      <LoginInput
+      <NameInput
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           setUserName(e.target.value);
         }}
         placeholder="name"
       />
       <UrlInput
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setUserUrl(e.target.value);
-        }}
-        placeholder="url / host"
+        // onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+        //   setUserUrl(e.target.value);
+        // }}
+        placeholder="url"
+        value={"192.168.100.74"}
       />
       <PortInput
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setUserPort(e.target.value);
-        }}
+        // onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+        //   setUserPort(e.target.value);
+        // }}
         placeholder="port"
+        value={"9001"}
       />
       <LoginButton onClick={login}>Ok</LoginButton>
     </LoginBox>

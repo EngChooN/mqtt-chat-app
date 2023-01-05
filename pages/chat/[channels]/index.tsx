@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Send from "../../../components/sendbox/Send";
 import Chats from "../../../components/chatbox/Chats";
 
 const Wrapper = styled.section`
@@ -16,7 +15,6 @@ export default function Chat() {
   return (
     <Wrapper>
       <Chats />
-      <Send />
     </Wrapper>
   );
 }
