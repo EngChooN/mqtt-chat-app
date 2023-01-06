@@ -10,7 +10,7 @@ export default function useLocalData() {
     setUserName(localStorage.getItem("username"));
     setUserUrl(localStorage.getItem("userurl"));
     setUserPort(localStorage.getItem("userport"));
-  });
+  }, []);
 
   return { userName, userUrl, userPort };
 }

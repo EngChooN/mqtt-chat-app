@@ -24,6 +24,7 @@ export default function Chat() {
     // 채팅룸이 바뀔 시, 클라이언트 연결
     const connectMqtt = () => {
       client.on("connect", () => {
+        setPersonMessage([]);
         console.log("클라이언트 접속 완료!");
         // 해당 토픽 구독
         client.subscribe(roomName.channels, (err) => {
@@ -39,7 +40,7 @@ export default function Chat() {
     if (url !== ":") {
       connectMqtt();
     }
-  }, [roomName.channels]);
+  }, [roomName]);
 
   // 구독한 토픽에서 메세지 수신
   client.on("message", function (topic, message) {

@@ -8,6 +8,10 @@ export const ChatWrapper = styled.section`
   flex-direction: column;
 `;
 
+export const ChatName = styled.div`
+  width: 100%;
+`;
+
 export const ChatBox = styled.div`
   float: left;
   background-color: white;
