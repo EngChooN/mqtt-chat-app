@@ -4,11 +4,12 @@ export const ChatWrapper = styled.section`
   width: 100%;
   height: 100%;
   overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const ChatBox = styled.div`
-  max-width: 200px;
-  width: 100%;
+  float: left;
   background-color: white;
   word-break: break-all;
   color: black;
@@ -18,5 +19,19 @@ export const ChatBox = styled.div`
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
   border-bottom-right-radius: 25px;
+  margin-bottom: 15px;
+`;
+
+export const ChatMyBox = styled.div`
+  float: right;
+  background-color: yellow;
+  word-break: break-all;
+  color: black;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  border-bottom-left-radius: 25px;
   margin-bottom: 15px;
 `;

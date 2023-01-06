@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ChatWrapper, ChatBox } from "./Chats.styles";
+import { ChatWrapper, ChatBox, ChatMyBox } from "./Chats.styles";
 import mqtt from "mqtt";
 import Send from "../sendbox/Send";
 import useLocalData from "../../src/hooks/useLocalData";
@@ -47,7 +47,6 @@ export default function Chat() {
     console.log(message);
     // 버퍼 => 문자열
     const callMessage = message.toString("utf-8");
-    console.log(message.toString("utf-8"));
     // 데이터에 담기
     setPersonMessage((prev) => [...prev, callMessage]);
   });
@@ -56,7 +55,7 @@ export default function Chat() {
   const sendFunc = () => {
     client.publish(
       roomName.channels,
-      sendMessage,
+      `[${userName}]: ${sendMessage}`,
       { qos: 0, retain: false },
       function (error) {
         if (error) {
@@ -82,7 +81,30 @@ export default function Chat() {
           {userName}님 환영합니다!!
         </div>
         {personMessage.map((messages, idx) => (
-          <ChatBox key={idx}>{messages}</ChatBox>
+          <div key={idx}>
+            {messages.substring(
+              messages.toString("utf-8").indexOf("[") + 1,
+              messages.toString("utf-8").indexOf("]")
+            ) !== userName ? (
+              <>
+                {messages.substring(
+                  messages.toString("utf-8").indexOf("[") + 1,
+                  messages.toString("utf-8").indexOf("]")
+                )}
+                <ChatBox>
+                  {messages.substring(
+                    messages.toString("utf-8").indexOf(":") + 1
+                  )}
+                </ChatBox>
+              </>
+            ) : (
+              <ChatMyBox>
+                {messages.substring(
+                  messages.toString("utf-8").indexOf(":") + 1
+                )}
+              </ChatMyBox>
+            )}
+          </div>
         ))}
       </ChatWrapper>
       <Send
