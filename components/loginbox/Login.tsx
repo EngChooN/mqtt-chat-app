@@ -10,7 +10,7 @@ import {
 
 export default function Login() {
   const [userName, setUserName] = useState("");
-  const [userUrl, setUserUrl] = useState("192.168.100.74");
+  const [userUrl, setUserUrl] = useState("172.30.1.4");
   const [userPort, setUserPort] = useState("9001");
 
   const login = () => {
@@ -36,7 +36,8 @@ export default function Login() {
         //   setUserUrl(e.target.value);
         // }}
         placeholder="url"
-        value={"192.168.100.74"}
+        value={"172.30.1.4"}
+        // 집 172.30.1.4 회사 192.168.100.74
       />
       <PortInput
         // onChange={(e: React.ChangeEvent<HTMLInputElement>) => {

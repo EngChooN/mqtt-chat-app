@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChatWrapper, ChatBox, ChatMyBox } from "./Chats.styles";
 import mqtt from "mqtt";
 import Send from "../sendbox/Send";
@@ -15,7 +15,7 @@ export default function Chat() {
   const url = `${userUrl}:${userPort}`;
   const client = mqtt.connect("mqtt://" + url);
   // const client = mqtt.connect("mqtt://192.168.100.74:9001");
-  const [sendMessage, setSendMessage] = useState("");
+  const inputRef = useRef("");
 
   useEffect(() => {
     // 로컬스토리지에서 url, port를 가져옴
@@ -37,7 +37,7 @@ export default function Chat() {
       });
     };
 
-    if (url !== ":") {
+    if (url !== ":" && client !== undefined) {
       connectMqtt();
     }
   }, [roomName]);
@@ -56,7 +56,7 @@ export default function Chat() {
   const sendFunc = () => {
     client.publish(
       roomName.channels,
-      `[${userName}]: ${sendMessage}`,
+      `[${userName}]: ${inputRef.current}`,
       { qos: 0, retain: false },
       function (error) {
         if (error) {
@@ -66,7 +66,7 @@ export default function Chat() {
         }
       }
     );
-    setSendMessage("");
+    inputRef.current = "";
   };
 
   return (
@@ -108,11 +108,7 @@ export default function Chat() {
           </div>
         ))}
       </ChatWrapper>
-      <Send
-        sendMessage={sendMessage}
-        setSendMessage={setSendMessage}
-        sendFunc={sendFunc}
-      />
+      <Send sendFunc={sendFunc} inputRef={inputRef} />
     </>
   );
 }
