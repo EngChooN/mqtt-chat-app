@@ -15,7 +15,7 @@ export default function Chat() {
   const url = `${userUrl}:${userPort}`;
   const client = mqtt.connect("mqtt://" + url);
   // const client = mqtt.connect("mqtt://192.168.100.74:9001");
-  const inputRef = useRef("");
+  const inputRef = useRef(null);
 
   useEffect(() => {
     // 로컬스토리지에서 url, port를 가져옴
@@ -66,7 +66,6 @@ export default function Chat() {
         }
       }
     );
-    inputRef.current = "";
   };
 
   return (
