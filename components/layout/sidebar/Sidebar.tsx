@@ -2,14 +2,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useLocalData from "../../../src/hooks/useLocalData";
+import ChannelList from "./channelList/ChannelList";
 import { Wrapper, UserInfoBox, ChannelsBox } from "./Sidebar.styles";
 
 export default function Sidebar() {
   const router = useRouter();
   // 로컬스토리지의 이름 값을 담아야함 (next.js의 SSR때문에..)
-  const { userName } = useLocalData();
-  const { userUrl } = useLocalData();
-  const { userPort } = useLocalData();
+  const { userName, userUrl, userPort } = useLocalData();
   const [addChannelFlag, setAddChannelFlag] = useState(false);
   const [channelName, setChannelName] = useState("");
   const [channels, setChannels] = useState([]);
@@ -27,10 +26,15 @@ export default function Sidebar() {
         setAddChannelFlag(false);
       } else {
         let getArr = JSON.parse(localStorage.getItem("channels"));
-        let setArr = JSON.stringify([...getArr, channelName]);
+        let setArr = JSON.stringify([
+          ...getArr,
+          { channelName: [channelName], wildChannel: [] },
+        ]);
         localStorage.setItem("channels", setArr);
         setChannels(JSON.parse(setArr));
+        console.log(channels);
         setAddChannelFlag(false);
+        router.push("/chat/" + channelName);
       }
     }
   };
@@ -70,12 +74,18 @@ export default function Sidebar() {
         ) : null}
         <ul>
           <li style={{ marginBottom: "5px" }}>
-            <Link href={"/chat/every"}>every</Link>
+            <Link href={"/chat/free"}>free</Link>
           </li>
           {channels.map((el, idx) => (
-            <li style={{ marginBottom: "5px" }} key={idx}>
-              <Link href={"/chat/" + el.replace(/ /g, "")}>{el}</Link>
-            </li>
+            <>
+              {console.log(el)}
+              <ChannelList
+                key={idx}
+                index={idx}
+                channels={channels}
+                setChannels={setChannels}
+              />
+            </>
           ))}
         </ul>
       </ChannelsBox>

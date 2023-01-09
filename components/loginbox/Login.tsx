@@ -1,5 +1,5 @@
 import Router from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   LoginBox,
   NameInput,
@@ -10,8 +10,8 @@ import {
 
 export default function Login() {
   const [userName, setUserName] = useState("");
-  const [userUrl, setUserUrl] = useState("172.30.1.4");
-  const [userPort, setUserPort] = useState("9001");
+  const [userUrl] = useState("172.30.1.20");
+  const [userPort] = useState("9001");
 
   const login = () => {
     localStorage.setItem("username", userName);
@@ -19,8 +19,15 @@ export default function Login() {
     localStorage.setItem("userport", userPort);
     const arr = [];
     localStorage.setItem("channels", JSON.stringify(arr));
-    Router.push("/chat/every");
+    Router.push("/chat/free");
   };
+
+  useEffect(() => {
+    alert(
+      `mqtt활용! 🙋🏻‍♂️ 상위 채널에서 보낸 메세지는 하위 채널에서도 수신됩니다.
+mqtt의 와일드카드를 이용하여 간단한 계층 구조의 채팅앱을 만들었습니다!`
+    );
+  }, []);
 
   return (
     <LoginBox>
@@ -36,7 +43,7 @@ export default function Login() {
         //   setUserUrl(e.target.value);
         // }}
         placeholder="url"
-        value={"172.30.1.4"}
+        value={userUrl}
         // 집 172.30.1.4 회사 192.168.100.74
       />
       <PortInput
@@ -44,7 +51,7 @@ export default function Login() {
         //   setUserPort(e.target.value);
         // }}
         placeholder="port"
-        value={"9001"}
+        value={userPort}
       />
       <LoginButton onClick={login}>Ok</LoginButton>
     </LoginBox>

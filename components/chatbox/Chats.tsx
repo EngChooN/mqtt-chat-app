@@ -8,14 +8,17 @@ import useRoomName from "../../src/hooks/useRoomName";
 export default function Chat() {
   const [personMessage, setPersonMessage] = useState([]);
   const { userName } = useLocalData();
-  const { userUrl } = useLocalData();
-  const { userPort } = useLocalData();
+  const { userUrl, userPort } = useLocalData();
   const { roomName } = useRoomName(); // roomName.channels
+  console.log("하위토픽임", roomName);
 
   const url = `${userUrl}:${userPort}`;
   const client = mqtt.connect("mqtt://" + url);
   // const client = mqtt.connect("mqtt://192.168.100.74:9001");
   const inputRef = useRef(null);
+
+  // const [callMessage, setCallMessage] = useState("");
+  let callMessage = "";
 
   useEffect(() => {
     // 로컬스토리지에서 url, port를 가져옴
@@ -27,13 +30,27 @@ export default function Chat() {
         setPersonMessage([]);
         console.log("클라이언트 접속 완료!");
         // 해당 토픽 구독
-        client.subscribe(roomName.channels, (err) => {
-          if (!err) {
-            console.log(roomName.channels + " 토픽 구독 성공!");
-          } else {
-            console.log("구독실패");
-          }
-        });
+        if (roomName.wild !== undefined) {
+          // ex) test/# 구독
+          client.subscribe(roomName.channels + "/" + "#", (err) => {
+            if (!err) {
+              console.log(
+                roomName.channels + "/" + roomName.wild + " 토픽 구독 성공!"
+              );
+            } else {
+              console.log("구독실패");
+            }
+          });
+        } else {
+          // ex) test 구독
+          client.subscribe(roomName.channels, (err) => {
+            if (!err) {
+              console.log(roomName.channels + " 토픽 구독 성공!");
+            } else {
+              console.log("구독실패");
+            }
+          });
+        }
       });
     };
 
@@ -42,13 +59,20 @@ export default function Chat() {
     }
   }, [roomName]);
 
+  // 데이터에 담기
+  // useEffect(() => {
+  //   console.log("cm담기!")
+  //   setPersonMessage((prev) => [...prev, callMessage]);
+  // }, [callMessage]);
+
   // 구독한 토픽에서 메세지 수신
   client.on("message", function (topic, message) {
     // message is Buffer
     console.log(message);
     // 버퍼 => 문자열
-    const callMessage = message.toString("utf-8");
-    // 데이터에 담기
+    // setCallMessage(message.toString("utf-8"));
+    callMessage = message.toString("utf-8");
+    console.log("cm", callMessage);
     setPersonMessage((prev) => [...prev, callMessage]);
   });
 
