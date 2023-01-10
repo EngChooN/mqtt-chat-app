@@ -33,7 +33,7 @@ export default function Chat() {
         console.log("클라이언트 접속 완료!");
         // 해당 토픽 구독
         if (router.asPath == "/chat/every") {
-          const topicSub = `room/every/#`;
+          const topicSub = `room/every`;
           client.subscribe(topicSub, (err) => {
             if (!err) {
               console.log(topicSub + "토픽 구독 성공!");
@@ -43,7 +43,7 @@ export default function Chat() {
           });
         } else if (roomName.wild !== undefined) {
           // ex) test/# 구독
-          const topicSub = `room/every/#`;
+          const topicSub = `room/every/+/${roomName.wild}`;
           client.subscribe(topicSub, (err) => {
             if (!err) {
               console.log(topicSub + "토픽 구독 성공!");
@@ -53,7 +53,7 @@ export default function Chat() {
           });
         } else {
           // ex) test 구독
-          const topicSub = `room/every/${roomName.channels}/#`;
+          const topicSub = `room/+/${roomName.channels}`;
           client.subscribe(topicSub, (err) => {
             if (!err) {
               console.log(topicSub + " 토픽 구독 성공!");
@@ -89,15 +89,23 @@ export default function Chat() {
 
   // 해당 토픽으로 메세지 송신
   const sendFunc = () => {
+    let topicPub;
+    if (router.asPath == "/chat/every") {
+      topicPub = `room/every`;
+    } else if (roomName.wild !== undefined) {
+      topicPub = `room/every/${roomName.channels}/${roomName.wild}`;
+    } else {
+      topicPub = `room/every/${roomName.channels}`;
+    }
     client.publish(
-      roomName.channels,
+      topicPub,
       `[${userName}]: ${inputRef.current}`,
       { qos: 0, retain: false },
       function (error) {
         if (error) {
           console.log(error);
         } else {
-          console.log("Published");
+          console.log("Published", topicPub);
         }
       }
     );
