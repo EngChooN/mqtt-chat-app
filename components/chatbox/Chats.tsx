@@ -4,8 +4,10 @@ import mqtt from "mqtt";
 import Send from "../sendbox/Send";
 import useLocalData from "../../src/hooks/useLocalData";
 import useRoomName from "../../src/hooks/useRoomName";
+import { useRouter } from "next/router";
 
 export default function Chat() {
+  const router = useRouter();
   const [personMessage, setPersonMessage] = useState([]);
   const { userName } = useLocalData();
   const { userUrl, userPort } = useLocalData();
@@ -30,22 +32,31 @@ export default function Chat() {
         setPersonMessage([]);
         console.log("클라이언트 접속 완료!");
         // 해당 토픽 구독
-        if (roomName.wild !== undefined) {
-          // ex) test/# 구독
-          client.subscribe(roomName.channels + "/" + "#", (err) => {
+        if (router.asPath == "/chat/every") {
+          const topicSub = `room/every/#`;
+          client.subscribe(topicSub, (err) => {
             if (!err) {
-              console.log(
-                roomName.channels + "/" + roomName.wild + " 토픽 구독 성공!"
-              );
+              console.log(topicSub + "토픽 구독 성공!");
+            } else {
+              console.log("구독실패");
+            }
+          });
+        } else if (roomName.wild !== undefined) {
+          // ex) test/# 구독
+          const topicSub = `room/every/#`;
+          client.subscribe(topicSub, (err) => {
+            if (!err) {
+              console.log(topicSub + "토픽 구독 성공!");
             } else {
               console.log("구독실패");
             }
           });
         } else {
           // ex) test 구독
-          client.subscribe(roomName.channels, (err) => {
+          const topicSub = `room/every/${roomName.channels}/#`;
+          client.subscribe(topicSub, (err) => {
             if (!err) {
-              console.log(roomName.channels + " 토픽 구독 성공!");
+              console.log(topicSub + " 토픽 구독 성공!");
             } else {
               console.log("구독실패");
             }
@@ -131,6 +142,7 @@ export default function Chat() {
           </div>
         ))}
       </ChatWrapper>
+      {router.asPath}
       <Send sendFunc={sendFunc} inputRef={inputRef} />
     </>
   );

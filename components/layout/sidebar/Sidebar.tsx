@@ -74,19 +74,21 @@ export default function Sidebar() {
         ) : null}
         <ul>
           <li style={{ marginBottom: "5px" }}>
-            <Link href={"/chat/free"}>free</Link>
+            <Link href={"/chat/every"}>every</Link>
           </li>
-          {channels.map((el, idx) => (
-            <>
-              {console.log(el)}
-              <ChannelList
-                key={idx}
-                index={idx}
-                channels={channels}
-                setChannels={setChannels}
-              />
-            </>
-          ))}
+          <ul>
+            {channels.map((el, idx) => (
+              <>
+                {console.log(el)}
+                <ChannelList
+                  key={idx}
+                  index={idx}
+                  channels={channels}
+                  setChannels={setChannels}
+                />
+              </>
+            ))}
+          </ul>
         </ul>
       </ChannelsBox>
       <li>URL - {userUrl}</li>

@@ -1,13 +1,15 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import useRoomName from "../../../../src/hooks/useRoomName";
 
 export default function ChannelList({ channels, setChannels, index }) {
   const router = useRouter();
   const [addChannelFlag, setAddChannelFlag] = useState(false);
   const [channelName, setChannelName] = useState("");
+  const { roomName } = useRoomName();
 
-  const addedChannel = (e, index) => {
+  const addedChannel = (e, index, el) => {
     if (e.keyCode == 13) {
       // 스페이스바를 누르고 추가했을 시, 예외처리 해야함!! (아직 안함)
       if (channelName == "") {
@@ -24,7 +26,7 @@ export default function ChannelList({ channels, setChannels, index }) {
         localStorage.setItem("channels", setArr);
         setChannels(JSON.parse(setArr));
         setAddChannelFlag(false);
-        // router.push("/chat/" + channels[0].wildChannel[idx]);
+        router.push(`/chat/${el}/${channelName}`);
       }
     }
   };
@@ -49,7 +51,7 @@ export default function ChannelList({ channels, setChannels, index }) {
                 setChannelName(e.target.value);
               }}
               onKeyDown={(e) => {
-                addedChannel(e, index);
+                addedChannel(e, index, el);
               }}
               placeholder="엔터를 누르면 추가됩니다."
             />

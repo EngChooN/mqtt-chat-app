@@ -10,7 +10,7 @@ import {
 
 export default function Login() {
   const [userName, setUserName] = useState("");
-  const [userUrl] = useState("172.30.1.20");
+  const [userUrl] = useState("172.30.1.90");
   const [userPort] = useState("9001");
 
   const login = () => {
@@ -19,7 +19,7 @@ export default function Login() {
     localStorage.setItem("userport", userPort);
     const arr = [];
     localStorage.setItem("channels", JSON.stringify(arr));
-    Router.push("/chat/free");
+    Router.push("/chat/every");
   };
 
   useEffect(() => {
