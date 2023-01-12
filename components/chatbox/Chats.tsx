@@ -70,7 +70,7 @@ export default function Chat() {
     }
   }, [roomName]);
 
-  // 데이터에 담기
+  // 데이터에 담기 state test...
   // useEffect(() => {
   //   console.log("cm담기!")
   //   setPersonMessage((prev) => [...prev, callMessage]);
