@@ -10,7 +10,7 @@ import {
 
 export default function Login() {
   const [userName, setUserName] = useState("");
-  const [userUrl] = useState("172.30.1.90");
+  const [userUrl, setUserUrl] = useState("");
   const [userPort] = useState("9001");
 
   const login = () => {
@@ -39,9 +39,9 @@ mqtt의 와일드카드를 이용하여 간단한 계층 구조의 채팅앱을 
         placeholder="name"
       />
       <UrlInput
-        // onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-        //   setUserUrl(e.target.value);
-        // }}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          setUserUrl(e.target.value);
+        }}
         placeholder="url"
         value={userUrl}
         // 집 172.30.1.4 회사 192.168.100.74
